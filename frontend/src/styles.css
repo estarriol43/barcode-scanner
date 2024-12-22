@@ -12,11 +12,11 @@
 #barcode-result {
   margin-top: 20px;
   font-size: 1.5em;
-  color: green;
+  color: white;
 }
 
 .server-response {
   margin-top: 20px;
   font-size: 1em;
-  color: blue;
+  color: white;
 }
