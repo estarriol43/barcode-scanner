@@ -1,0 +1,22 @@
+#scanner-container {
+  text-align: center;
+  margin: auto;
+  max-width: 600px;
+}
+
+#scanner {
+  width: 100%;
+  height: 400px;
+}
+
+#barcode-result {
+  margin-top: 20px;
+  font-size: 1.5em;
+  color: green;
+}
+
+.server-response {
+  margin-top: 20px;
+  font-size: 1em;
+  color: blue;
+}
