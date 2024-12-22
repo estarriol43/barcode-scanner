@@ -14,6 +14,12 @@ const BarcodeScanner = () => {
             name: "Live",
             type: "LiveStream",
             target: scannerRef.current, // Attach the video feed here
+            constraints: {
+              width: 480,
+              height: 640,
+              facingMode: "environment",
+              advanced: [{ zoom: 4 }] // Adjust the zoom level here
+            }
           },
           decoder: {
             readers: ["code_128_reader", "ean_reader"], // Support multiple 1D barcode formats
