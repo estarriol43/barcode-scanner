@@ -4,20 +4,32 @@ const fs = require("fs");
 const https = require("https");
 const express = require("express");
 const ngrok = require('ngrok');
+const { execSync } = require('child_process');
 
 // Configuration
 require('dotenv').config()
 
 // Set up osc port
-const udpPort = new osc.UDPPort({
-  remotePort: 9091,
-  remoteAddress: "127.0.0.1"
+const toMaxPort = new osc.UDPPort({
+  localAddress: "0.0.0.0",
+  localPort: 4040,
+  remotePort: process.env.MAX_OSC_TO_PORT,
+  remoteAddress: process.env.MAX_OSC_IP
+});
+
+const toGroundPort = new osc.UDPPort({
+  localAddress: "0.0.0.0",
+  localPort: 3030,
+  remotePort: process.env.GROUND_OSC_TO_PORT,
+  remoteAddress: process.env.GROUND_OSC_IP
 });
 
 // Open the port
-udpPort.open();
+toMaxPort.open();
+toGroundPort.open();
 
-console.log(`Send OSC message to ${process.env.REMOTE_OSC_IP}:${process.env.REMOTE_OSC_PORT}`)
+console.log(`Send OSC message to ${process.env.MAX_OSC_IP}:${process.env.MAX_OSC_TO_PORT}`)
+console.log(`Send OSC message to ${process.env.GROUND_OSC_IP}:${process.env.GROUND_OSC_TO_PORT}`)
 
 // Create an Express-based Web Socket server
 const appResources = __dirname + '/../frontend/build';
@@ -74,12 +86,27 @@ app.post('/', (req, res) => {
   console.log(`address: ${address}, args: ${args}`)
 
   if (address != null && args != null) {
-    udpPort.send({
+    toMaxPort.send({
       address: address,
       args: [
         { type: "s", value: args },
       ]
     });
+
+    toGroundPort.send({
+      address: '/delete',
+      args: [
+        { type: "s", value: `${address} ${args}` },
+      ]
+    });
+
+    // try {
+    //   const output = execSync(`python3 sender.py ${address} ${args}`);
+    //   console.log(output.toString());
+    // } catch (error) {
+    //   console.error(`Error: ${error.message}`);
+    // }
+
     res.json({ status: 'success', receivedMessage: req.body.code });
     console.log("success")
   } else {
