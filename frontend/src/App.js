@@ -15,14 +15,14 @@ const BarcodeScanner = () => {
             type: "LiveStream",
             target: scannerRef.current, // Attach the video feed here
             constraints: {
-              width: 480,
-              height: 640,
+              height: window.innerWidth * 0.8,
+              width: window.innerHeight * 0.8,
               facingMode: "environment",
               advanced: [{ zoom: 1 }] // Adjust the zoom level here
             }
           },
           decoder: {
-            readers: ["code_128_reader", "ean_reader"], // Support multiple 1D barcode formats
+            readers: ["code_128_reader"], // Support multiple 1D barcode formats
           },
         },
         (err) => {
@@ -52,7 +52,9 @@ const BarcodeScanner = () => {
 
           // Display the response from the server
           const responseData = await response.json();
-          setServerResponse(`Server Response: ${JSON.stringify(responseData, null, 2)}`);
+          setServerResponse(responseData);
+          console.log(responseData)
+          console.log(typeof(responseData))
         } catch (error) {
           setServerResponse(`Error: ${error.message}`);
           console.error("Error sending message:", error);
@@ -71,12 +73,13 @@ const BarcodeScanner = () => {
 
   return (
     <div id="scanner-container">
-      <h1>Barcode Scanner</h1>
-      <div id="scanner" ref={scannerRef}></div>
       <div id="barcode-result">
         Scanned Barcode: <span>{barcode}</span>
       </div>
-        {serverResponse && <div className="server-response">{serverResponse}</div>}
+        <div className="server-response">
+          Response: {serverResponse.status}
+        </div>
+      <div id="scanner" ref={scannerRef}></div>
     </div>
   );
 };
