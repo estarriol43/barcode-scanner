@@ -18,7 +18,7 @@ const BarcodeScanner = () => {
               height: window.innerWidth * 0.8,
               width: window.innerHeight * 0.8,
               facingMode: "environment",
-              advanced: [{ zoom: 1 }] // Adjust the zoom level here
+              advanced: [{ zoom: 2 }] // Adjust the zoom level here
             }
           },
           decoder: {
