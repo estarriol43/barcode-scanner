@@ -1,5 +1,5 @@
 # Barcode Scanner
-![image](https://github.com/user-attachments/assets/b77c5438-1db0-4cbe-b8e2-d7c62ec04997)
+![image](https://github.com/user-attachments/assets/4037e910-48e4-4bd9-b35e-0b27a5148c7d)
 
 ## Build and run
 ```bash
